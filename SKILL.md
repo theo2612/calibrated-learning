@@ -28,6 +28,29 @@ A coaching skill that meets learners where they actually are — not where the a
 
 The learner can signal in any natural form: "yellow", "🟡", "yellow on Rhino", "I'm red", "🔴 lost on reflection", etc.
 
+### Bundling Questions With Your Signal
+
+You don't need a separate message to ask about a term, piece of jargon, or concept you looked up. **Bundle it into your signal** — the color is processed first (depth/pace adjusts), then bundled terms are addressed as a compact vocab block, then everything is logged to the gap map.
+
+Any of these formats work:
+
+```
+🟢 / but what is: ClassShutter
+🟢 + I googled "Rhino sandbox" while reading — have it now, just noting it
+🟡 on the Rhino part, and what does "safe-mode scope" mean?
+🔴 + three terms I didn't follow: (1) reflection  (2) ClassShutter  (3) why JVM matters
+green, but can you define "ephemeral"? I think I know but want to confirm
+yellow — and I had to look up: PBKDF2, AES-CBC
+```
+
+**What happens when you bundle:**
+1. The color signal is honored first — depth and pace adjust accordingly
+2. Each bundled term gets a compact one-paragraph definition anchored to the current concept
+3. Terms you had to look up are added to your gap map as vocabulary gaps
+4. Session notes will capture what you had to look up alongside what you understood natively
+
+The goal is **zero loss to silent googling.** Anything you would have quietly looked up and moved on from can enter the conversation instead — and become part of your session record.
+
 ## Session Flow
 
 Every coaching session follows this shape:
@@ -77,6 +100,25 @@ Execute the structured **Command → Output → Analysis → Next** loop. Betwee
 **On 🟡:** Pause forward motion. Re-explain the current concept with a concrete example tied to a fundamental the learner already owns. Use analogy aggressively. Confirm understanding (another R/Y/G signal) before continuing.
 
 **On 🔴:** See Phase 3.
+
+**On any signal with bundled questions:** Address the color signal first. Then deliver a compact vocab block — one short paragraph per term, anchored to how it was used in the just-delivered concept. Log each looked-up term to the gap map.
+
+### Vocab Footer
+
+At the end of every concept block that introduces 3 or more new technical terms, append a **Vocab Footer** — a short reference the learner can read without scrolling back. This eliminates the need to hunt upward to re-read a term definition mid-checkpoint.
+
+Format:
+
+```
+**Terms used in this concept**
+- *[term]* — [one-sentence definition anchored to this concept's context]
+- *[term]* — [definition]
+- *[term]* — [definition]
+```
+
+**When to include it:** 3+ new technical terms in the concept, OR any concept in 🔴 territory, OR any concept where at least one term was not in the learner's baseline vocabulary.
+
+**When to skip it:** Concepts with no new terminology (e.g., synthesis concepts, concept 8-style timelines). Don't pad for padding's sake.
 
 ## Phase 3: Gap Recovery (only on 🔴)
 
@@ -173,3 +215,6 @@ This skill is **not** for:
 - **Keep the gap map running in-context** for short sessions; write to disk for sessions over ~30 minutes or when the learner signals 🔴 more than twice.
 - **Match the learner's vocabulary.** If they call it "the hash thing", call it "the hash thing" until you're sure they own the formal term.
 - **Never minimize gaps.** A 🔴 means a real gap exists — treat it as productive information, document it, and move on without commentary about how "tricky" the concept is.
+- **Handle bundled questions in order:** color signal → vocab block (one paragraph per term) → gap map entry for each unknown term → then continue the walkthrough. Never skip the color-signal response to jump straight to vocabulary.
+- **Append a Vocab Footer** when a concept introduces 3+ new technical terms, is in 🔴 territory, or includes terms not in the learner's baseline vocabulary. Keep each definition to one sentence anchored in the concept's context — not a dictionary definition.
+- **Define notation and technical adjectives on first use.** Any symbol (K_u, ε, n, π), subscript notation, or domain adjective (ephemeral, idempotent, deterministic) should be defined inline the first time it appears. Do not assume these cross from written technical literature to a learner's vocabulary automatically.

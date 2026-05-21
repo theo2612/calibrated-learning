@@ -16,13 +16,68 @@ This skill gives you a fourth option: **a low-cost, fast, non-judgmental signal 
 
 ## The Traffic-Light System
 
-| Signal | Meaning |
-|--------|---------|
-| 🟢 **GREEN** | Tracking. Keep going at this depth and pace. |
-| 🟡 **YELLOW** | Slow down. I need more "why" / context / fundamentals on the current concept. |
-| 🔴 **RED** | Stop. I'm lost. Restart from first principles. |
+| Signal | Meaning | What happens next |
+|--------|---------|-------------------|
+| 🟢 **GREEN** | Tracking. Keep going at this depth and pace. | Continue. No added scaffolding. |
+| 🟡 **YELLOW** | Slow down. I need more "why" / context / fundamentals on the current concept. | Pause forward motion. Re-explain with a concrete example or analogy. Confirm before continuing. |
+| 🔴 **RED** | Stop. I'm lost. Restart from first principles. | Stop completely. Find the foundational layer you do own. Rebuild forward. Capture the gap. |
 
 You can signal in any natural form: `green`, `🟡`, `yellow on Rhino`, `🔴 lost on reflection`, `I'm red on this part`.
+
+### Signal Quick Reference
+
+Print this out or keep it in a tab. You can use it at any checkpoint.
+
+---
+
+**Simple signals (just the color):**
+```
+green
+🟢
+yellow
+🟡
+red
+🔴
+```
+
+**Signal + specific part:**
+```
+🟡 on the Rhino part
+🔴 — lost on what reflection means
+green on the concept, yellow on the command syntax
+```
+
+**Signal + terms you had to look up (bundles into the response):**
+```
+🟢 / but what is: ClassShutter
+🟡 on Rhino, and can you define "safe-mode scope"?
+🔴 + I didn't follow these terms: (1) reflection  (2) ClassShutter  (3) JVM
+green — but I had to google "ephemeral" while reading, here's what I found: [paste it]
+yellow — and: PBKDF2, AES-CBC (what are these?)
+```
+
+**When you bundle terms:**
+1. The color is honored first — I adjust depth and pace
+2. Each term gets a compact definition anchored to how it was just used
+3. Terms you googled or didn't know are added to your gap map
+4. The session notes capture what you had to look up, not just what you understood immediately
+
+**The goal: zero loss to silent googling.** Anything you would have quietly looked up can come into the conversation and become part of your session record.
+
+---
+
+### What the Vocab Footer Is
+
+At the end of every concept block with 3+ new technical terms, you'll see:
+
+```
+**Terms used in this concept**
+- *Reflection* — calling Java methods by name at runtime, without knowing the type at compile time
+- *ClassShutter* — Rhino API that blocks cross-package class loading; the missing control in CVE-2024-1882
+- *Rhino* — Mozilla's JavaScript-in-JVM engine, used by PaperCut for device scripting
+```
+
+This means you **don't have to scroll back up** to re-read a term definition. The reference is right above the checkpoint.
 
 ## Installation
 
