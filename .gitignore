@@ -1,0 +1,10 @@
+# Runtime session state — never publish. May contain private/proprietary
+# walkthrough content (engagement notes, internal architecture, etc.).
+cauldron/
+
+# Internal design docs are kept out of the public mirror by convention.
+documentation/
+
+# OS / editor noise
+.DS_Store
+*.swp

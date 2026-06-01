@@ -79,6 +79,20 @@ At the end of every concept block with 3+ new technical terms, you'll see:
 
 This means you **don't have to scroll back up** to re-read a term definition. The reference is right above the checkpoint.
 
+### The Glossary Pre-Flight
+
+Before the walkthrough starts, the skill scans the planned content for the jargon it's about to lean on and hands you a one-screen glossary in three buckets:
+
+- **Acronyms & Abbreviations** — `TGT`, `KDC`, `EKU`, `ADCS`, `RCE`…
+- **Notation, Syntax & Conventions** — adapts to the topic: crypto notation (`K_s`, `⊕`), path syntax (`\\host\share`, the `$` hidden-share suffix, `\pipe\samr`), and the recurring command-flag shapes a tool family uses
+- **Technical Vocabulary** — loaded terms whose technical meaning differs from the everyday one: *ephemeral*, *idempotent*, *null session*, *salted*…
+
+Every entry is **what it is + what it's tied to** — a definition that only says what a term *is* floats free and won't stick, so each one is bound to the topic's spine (and, where possible, to a fundamental you already own). A ⚑ marks the terms tied to your **weakest-signalled** prerequisites this session (🔴-tied if you flagged any 🔴, else 🟡-tied) — the ones most worth a closer look. You skim it, flag anything fuzzy, and dive in knowing nothing will show up undefined.
+
+**Why it exists:** a capable model reaches for precise jargon fluently — and the more fluent it is, the more invisible its own jargon becomes to *it*. `K_s` and "ephemeral" are the "obviously correct words," so they get dropped in cold with no definition. (This skill's own Kerberos session caught exactly this twice.) The pre-flight front-loads the definitions so "define on first use" becomes reinforcement instead of first contact. On a topic with no real jargon, the scan honestly reports empty rather than padding with `HTTP — a web protocol`.
+
+The glossary stays alive through the session — terms that surface in Vocab Footers or that you bundle into a signal get appended to it — and it ships in your exported notes as a standalone reference.
+
 ## Installation
 
 Drop this folder into `~/.claude/skills/`:
@@ -101,9 +115,10 @@ Trigger the skill by asking for a coaching session on any technical topic:
 The skill will:
 
 1. **Baseline-check** prerequisite concepts with R/Y/G signals before diving in
-2. **Walk through** the topic in a Command → Output → Analysis → Next loop with R/Y/G checkpoints between concepts
-3. **Recover** when you signal 🔴 — backing up to a foundational layer and rebuilding, capturing the gap as a study artifact
-4. **Export** session notes (topic, walkthrough chain, R/Y/G transitions, gap map) on request
+2. **Pre-flight the jargon** — scan the planned content for acronyms, notation, and loaded vocabulary, define each, and present it up front so nothing appears undefined
+3. **Walk through** the topic in a Command → Output → Analysis → Next loop with R/Y/G checkpoints between concepts
+4. **Recover** when you signal 🔴 — backing up to a foundational layer and rebuilding, capturing the gap as a study artifact
+5. **Export** session notes (topic, walkthrough chain, R/Y/G transitions, gap map, glossary) on request
 
 ## Why This Approach
 
