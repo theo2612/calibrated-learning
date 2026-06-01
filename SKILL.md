@@ -17,6 +17,7 @@ A coaching skill that meets learners where they actually are — not where the a
 5. **One concept at a time.** Do not chain three new concepts before the first checkpoint.
 6. **Concrete before abstract.** Tie new concepts to fundamentals the learner already owns. Use analogies aggressively.
 7. **Confirm understanding before advancing.** No silent assumptions of comprehension.
+8. **Anchor, don't define.** Every new term is "what it is **+ what it's tied to**" — bound to the spine of the current topic and, where possible, to a fundamental the learner already owns. An untethered definition floats free and won't stick.
 
 ## The Traffic-Light System
 
@@ -56,11 +57,11 @@ The goal is **zero loss to silent googling.** Anything you would have quietly lo
 Every coaching session follows this shape:
 
 ```
-Baseline check  →  Walkthrough loop  ↔  Gap recovery  →  Export notes
-   (R/Y/G on        (Command → Output      (on 🔴 only)     (terminal,
-    prereqs)         → Analysis → Next                       optional)
-                     with R/Y/G between
-                     each concept)
+Baseline check → Glossary pre-flight → Walkthrough loop ↔ Gap recovery → Export notes
+   (R/Y/G on        (define the jargon     (Command → Output   (on 🔴 only)   (terminal,
+    prereqs)         before it appears)     → Analysis → Next                  optional)
+                                            with R/Y/G between
+                                            each concept)
 ```
 
 ## Phase 1: Baseline Check (always start here)
@@ -82,6 +83,24 @@ Before diving into any deep technical content, run a baseline R/Y/G check on the
 > 3. Java reflection (calling methods by name at runtime)
 > 4. JavaScript-in-Java sandboxes (Rhino)
 > 5. Windows service security contexts (LocalSystem)
+
+## Phase 1.5: Glossary Pre-Flight
+
+Once the baseline plan is set, scan the planned content for the jargon the walkthrough will lean on and present it **before** the chain starts — so a term never appears undefined mid-explanation.
+
+**Why this phase exists:** a capable model reaches for precise technical vocabulary fluently — and the more fluent it is, the more invisible its own jargon becomes to *it*. Acronyms (`TGT`, `EKU`), notation (`K_s`), and loaded adjectives (*ephemeral*, *idempotent*) get dropped in as the "obviously correct words," with no definition, because to the explainer they need none. The pre-flight front-loads those definitions so "define on first use" (below) becomes *reinforcement* rather than first contact.
+
+**Procedure:**
+1. Scan the planned concepts (and any 🔴 rebuilds) and sort the jargon into three buckets:
+   - **Acronyms & Abbreviations** — `TGT`, `KDC`, `IPC$`, `SAMR`, `RID`…
+   - **Notation, Syntax & Conventions** — adapts to the topic: math/crypto notation (`K_s`, `⊕`), path syntax (`\\host\share`, the `$` hidden-share suffix, `\pipe\samr`), and the recurring command-flag shapes a tool family uses (`-u '' -p ''`).
+   - **Technical Vocabulary** — loaded terms whose technical sense ≠ everyday sense (*ephemeral*, *null session*, *salted*).
+2. Write each entry as **"what it is + what it's tied to"** (Core Principle 8) — bind it to the topic spine and to a fundamental the learner already owns. The learner will reliably flag the entries you failed to anchor and ignore the ones you anchored.
+3. **Flag (⚑) the weakest signal tier present, not every non-🟢 term:** if any prerequisite is 🔴, ⚑ marks only the 🔴-tied terms; if the floor is 🟡, ⚑ marks the 🟡-tied terms; if all 🟢, no flags. Flagging everything is noise — flag the floor, not the field.
+4. **Skip-when-empty:** if the topic has no specialized jargon, say so honestly. Never pad with trivial terms ("HTTP — a web protocol").
+5. Present it as a compact skim-and-flag reference. The learner flags anything fuzzy (🟡/🔴) for expansion; otherwise the walkthrough begins. Unlike the baseline prereq check, *presenting definitions here is the intended move* — the point is to pre-define.
+
+Keep the glossary alive through the session: terms surfaced by Vocab Footers or bundled questions append to it, and it ships as a standalone reference in the exported notes.
 
 ## Phase 2: Walkthrough Loop
 
@@ -217,4 +236,5 @@ This skill is **not** for:
 - **Never minimize gaps.** A 🔴 means a real gap exists — treat it as productive information, document it, and move on without commentary about how "tricky" the concept is.
 - **Handle bundled questions in order:** color signal → vocab block (one paragraph per term) → gap map entry for each unknown term → then continue the walkthrough. Never skip the color-signal response to jump straight to vocabulary.
 - **Append a Vocab Footer** when a concept introduces 3+ new technical terms, is in 🔴 territory, or includes terms not in the learner's baseline vocabulary. Keep each definition to one sentence anchored in the concept's context — not a dictionary definition.
-- **Define notation and technical adjectives on first use.** Any symbol (K_u, ε, n, π), subscript notation, or domain adjective (ephemeral, idempotent, deterministic) should be defined inline the first time it appears. Do not assume these cross from written technical literature to a learner's vocabulary automatically.
+- **Define notation and technical adjectives on first use.** Any symbol (K_u, ε, n, π), subscript notation, or domain adjective (ephemeral, idempotent, deterministic) should be defined inline the first time it appears. Do not assume these cross from written technical literature to a learner's vocabulary automatically. The **Glossary Pre-Flight (Phase 1.5)** front-loads this for the whole topic, so first-use definition becomes reinforcement; the pre-flight does not replace it.
+- **Anchor every term to something owned (Core Principle 8).** "What it is + what it's tied to." A definition that only states what a term *is* floats free and won't stick — bind it to the topic's spine and to a fundamental the learner already has. Glossary entries, Vocab Footers, and bundled-term answers all follow this form.
