@@ -10,8 +10,8 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: workflow file for the calibrated-learning skill
-  version: 0.4.0
-  related files: "workflows/baseline_check.md, workflows/gap_recovery.md, workflows/export_notes.md"
+  version: 0.5.0
+  related files: "workflows/baseline_check.md, workflows/gap_recovery.md, workflows/export_notes.md, workflows/ledger.md"
   creation date: 2026-05-11
   last modified: 2026-06-02
 ---
@@ -331,8 +331,18 @@ finished_at: <ISO timestamp>
 
 Update `checkpoint.json`: `"status": "walkthrough_complete"`
 
+#### Update the Learning Ledger (always — before export)
+
+Run the **WRITE procedure** in `workflows/ledger.md`. This fires at completion **regardless of whether the learner exports notes**, so the session compounds into cross-session memory either way:
+- Teach-back-verified concepts → **OWNED**
+- Plain 🟢 concepts → **FAMILIAR**
+- Parked gaps → **OPEN**; gaps closed this session leave OPEN
+- A FAMILIAR concept that earned a teach-back this session upgrades to OWNED
+
+Report the result in the completion summary: *"Ledger updated: +N owned, +M familiar, K gaps still open."* This is the payoff — next time a related topic's baseline runs, these won't be re-asked from scratch.
+
 If learner says yes → route to `workflows/export_notes.md`.
-If no → mark session as ended, leave cauldron state intact for later resumption.
+If no → mark session as ended, leave cauldron state intact for later resumption. (The ledger is already updated, so the session is never "lost" even without an export.)
 
 ---
 

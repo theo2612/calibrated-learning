@@ -2,6 +2,9 @@
 # walkthrough content (engagement notes, internal architecture, etc.).
 cauldron/
 
+# Personal cross-session learning history — never publish.
+/ledger.md
+
 # Internal design docs are kept out of the public mirror by convention.
 documentation/
 

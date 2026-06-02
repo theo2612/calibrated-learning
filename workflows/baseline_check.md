@@ -10,8 +10,8 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: workflow file for the calibrated-learning skill
-  version: 0.4.0
-  related files: "workflows/router.md, workflows/walkthrough.md, workflows/gap_recovery.md"
+  version: 0.5.0
+  related files: "workflows/router.md, workflows/walkthrough.md, workflows/gap_recovery.md, workflows/ledger.md"
   creation date: 2026-05-11
   last modified: 2026-06-02
 ---
@@ -25,6 +25,7 @@ metadata:
 | This workflow | Step 0 (already loaded) | ~1,500 | Baseline check instructions |
 | `cauldron/<session-id>/topic.md` | Step 1 | ~300 | User-supplied topic and context |
 | `cauldron/<session-id>/checkpoint.json` | Step 1 | ~300 | Session state |
+| `../../ledger.md` (skill-level) | Step 1 (read) | ~400 | Cross-session OWNED/FAMILIAR/OPEN — classifies prerequisites (see `workflows/ledger.md`) |
 | `cauldron/<session-id>/glossary.md` | Step 5 (write) | ~600 | Pre-flight jargon artifact (acronyms, notation, vocab) |
 | `cauldron/<session-id>/baseline.md` | Step 6 (write) | ~1,000 | Output artifact |
 
@@ -106,22 +107,33 @@ Contents (~500 tokens):
 
 Update `checkpoint.json`: `"status": "prerequisites_drafted"`
 
+#### Consult the Learning Ledger
+
+Run the **READ procedure** in `workflows/ledger.md` against the draft prerequisite list. It returns a per-prerequisite classification (`owned-fresh`, `owned-stale`, `familiar`, `new`) plus any OPEN gaps related to this topic. This is how the skill stops re-calibrating ground the learner has already earned. If no ledger exists yet, every prerequisite is `new` — proceed normally.
+
 ### Step 2: Present to the Learner
 
-Present the prerequisite list in a single message with this structure:
+Present the prerequisite list in a single message. **Shape each line by its ledger classification** (from the READ procedure) so the learner only fully re-calibrates `new` ground:
 
 ```
-Before we dive into [topic], let's calibrate. R/Y/G each of these:
+Before we dive into [topic], let's calibrate.
 
-1. [Prerequisite name] — [one-line description]
-2. [Prerequisite name] — [one-line description]
-3. [Prerequisite name] — [one-line description]
-...
+You've got these locked from before — just confirm they're still solid (🟢) or flag to re-walk:
+1. [owned-fresh prereq] — ✅ owned ([topic it was learned in])
+2. [owned-stale prereq] — ⏳ owned ~[N] months ago, still solid?
+3. [familiar prereq] — 〰️ you've seen this ([topic]), still tracking?
 
-🟢 means tracking. 🟡 means you want a "why" refresher. 🔴 means we need to start from fundamentals on that one.
+And R/Y/G these — newer ground:
+4. [new prereq] — [one-line description]
+5. [new prereq] — [one-line description]
+
+🟢 tracking · 🟡 want the "why" · 🔴 start from fundamentals.
 ```
 
-**DO NOT explain the prerequisites in this step.** The whole point is to find out what the learner already owns. Premature explanation defeats the calibration.
+If the READ surfaced related **OPEN** gaps, append the offer:
+> Last time we parked **[gap]** — want to fold it into this walkthrough?
+
+**DO NOT explain the `new` prerequisites in this step.** The whole point is still to find out what the learner owns. Premature explanation defeats the calibration. (Pre-filling OWNED/FAMILIAR is *not* explaining — it's recalling a prior verified result for one-glance confirmation. The learner can downgrade any pre-fill with a single word; the ledger informs, the learner drives.)
 
 ### Step 3: Capture Signals
 

@@ -106,6 +106,18 @@ At the **load-bearing concepts** (the 1–2 things everything downstream depends
 
 Selective by design: it fires only where a false 🟢 is most expensive, never on every concept.
 
+### The Cross-Session Ledger
+
+Without memory, every session starts the skill ignorant — it re-asks you to calibrate things you mastered last week. The ledger fixes that. It's a persistent, hand-editable file (`ledger.md`, git-ignored — it's your learning history) with three tiers:
+
+- **OWNED** — concepts you've **teach-back verified.** Baseline trusts these: pre-filled 🟢, one-glance confirm.
+- **FAMILIAR** — concepts you self-reported 🟢 but never proved. Baseline pre-fills them but still asks — a hopeful 🟢 hasn't earned trust yet.
+- **OPEN** — gaps you parked. When you start a related topic, baseline surfaces them: *"we parked X last time — fold it in?"*
+
+So when you start, say, Kerberoasting after an SMB-enumeration session, baseline already knows you own *SID/RID* and *MS-RPC over named pipes* — it skips straight to the genuinely new material instead of re-litigating what you earned. **Staleness is handled:** an OWNED concept older than the decay threshold (default 8 weeks, tunable) is shown flagged *"⏳ owned a while ago — still solid?"* rather than trusted blind.
+
+The ledger and the teach-back gate **interlock**: only verified concepts earn OWNED, so the gate is what keeps the ledger's memory honest. It's written at the end of every session — so each walkthrough compounds into the next.
+
 ## Installation
 
 Drop this folder into `~/.claude/skills/`:
@@ -127,12 +139,13 @@ Trigger the skill by asking for a coaching session on any technical topic:
 
 The skill will:
 
-1. **Baseline-check** prerequisite concepts with R/Y/G signals before diving in
+1. **Baseline-check** prerequisite concepts with R/Y/G signals before diving in — consulting your cross-session ledger so already-owned ground is pre-filled, not re-asked
 2. **Pre-flight the jargon** — scan the planned content for acronyms, notation, and loaded vocabulary, define each, and present it up front so nothing appears undefined
 3. **Walk through** the topic in a Command → Output → Analysis → Next loop with R/Y/G checkpoints between concepts
 4. **Verify with a teach-back** at the load-bearing concepts (and after every 🔴 rebuild) — instead of a self-assessed 🟢, you explain it back in one line so a false 🟢 can't slip through and compound
 5. **Recover** when you signal 🔴 — backing up to a foundational layer and rebuilding, capturing the gap as a study artifact
-6. **Export** session notes (topic, walkthrough chain, R/Y/G transitions, gap map, glossary, corrected misconceptions) on request
+6. **Remember across sessions** — at the end, what you verified lands in the ledger (OWNED / FAMILIAR / OPEN), so the next related topic builds on it instead of starting from zero
+7. **Export** session notes (topic, walkthrough chain, R/Y/G transitions, gap map, glossary, corrected misconceptions) on request
 
 ## Why This Approach
 
