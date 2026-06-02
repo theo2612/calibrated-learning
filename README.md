@@ -93,6 +93,19 @@ Every entry is **what it is + what it's tied to** — a definition that only say
 
 The glossary stays alive through the session — terms that surface in Vocab Footers or that you bundle into a signal get appended to it — and it ships in your exported notes as a standalone reference.
 
+### The Teach-Back Gate
+
+A 🟢 you type yourself is *unverified*. The classic failure: you pattern-match "yeah, that tracks," signal green, and move on — but the understanding was thinner than the signal claimed, and the gap compounds invisibly. A false 🟢 looks identical to a real one.
+
+At the **load-bearing concepts** (the 1–2 things everything downstream depends on) and **after every 🔴 rebuild**, the checkpoint upgrades: instead of a bare signal, you explain it back in one line (or predict the next step). Producing the explanation is the cheapest way to tell a real 🟢 from a hopeful one.
+
+- **The burden is on the explanation, not you.** The prompt asks you to check *the assistant's* explanation landed — a gap reads "my explanation missed X," never "you got it wrong."
+- **Mechanism, not phrasing.** A rough, in-your-own-words explanation that captures the point is a pass. No vocabulary nitpicking.
+- **A surfaced misconception is the *best* outcome** — a wrong anchor caught here and corrected sticks harder than a fact you never mis-held. These land in your notes as a "Misconceptions Corrected" list.
+- **On by default, always skippable** — a bare color at a gate point advances without nagging, for the days you genuinely just know it.
+
+Selective by design: it fires only where a false 🟢 is most expensive, never on every concept.
+
 ## Installation
 
 Drop this folder into `~/.claude/skills/`:
@@ -117,8 +130,9 @@ The skill will:
 1. **Baseline-check** prerequisite concepts with R/Y/G signals before diving in
 2. **Pre-flight the jargon** — scan the planned content for acronyms, notation, and loaded vocabulary, define each, and present it up front so nothing appears undefined
 3. **Walk through** the topic in a Command → Output → Analysis → Next loop with R/Y/G checkpoints between concepts
-4. **Recover** when you signal 🔴 — backing up to a foundational layer and rebuilding, capturing the gap as a study artifact
-5. **Export** session notes (topic, walkthrough chain, R/Y/G transitions, gap map, glossary) on request
+4. **Verify with a teach-back** at the load-bearing concepts (and after every 🔴 rebuild) — instead of a self-assessed 🟢, you explain it back in one line so a false 🟢 can't slip through and compound
+5. **Recover** when you signal 🔴 — backing up to a foundational layer and rebuilding, capturing the gap as a study artifact
+6. **Export** session notes (topic, walkthrough chain, R/Y/G transitions, gap map, glossary, corrected misconceptions) on request
 
 ## Why This Approach
 

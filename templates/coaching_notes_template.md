@@ -9,10 +9,10 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: template file for the calibrated-learning skill
-  version: 0.3.0
+  version: 0.4.0
   related files: "workflows/export_notes.md"
   creation date: 2026-05-11
-  last modified: 2026-06-01
+  last modified: 2026-06-02
 ---
 
 # Coaching Notes Template
@@ -100,6 +100,14 @@ One-line summary per concept the learner actually internalized (🟢 final state
 - **{{concept}}** — {{mechanism in one sentence}}
 - **{{concept}}** — {{mechanism in one sentence}}
 - ...
+
+---
+
+## Misconceptions Corrected
+
+Surfaced by the Teach-Back Gate — what was *believed* vs. what's actually true. These are the highest-value review items: a corrected wrong-anchor sticks harder than a fact you never mis-held. *(Omit this section if no misconceptions surfaced.)*
+
+- **{{concept}}** — believed: *"{{learner's wrong anchor, verbatim}}"* → actual: {{the correction}}
 
 ---
 

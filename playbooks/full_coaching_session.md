@@ -10,10 +10,10 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: playbook file for the calibrated-learning skill
-  version: 0.3.0
+  version: 0.4.0
   related files: "workflows/baseline_check.md, workflows/walkthrough.md, workflows/gap_recovery.md, workflows/export_notes.md"
   creation date: 2026-05-11
-  last modified: 2026-06-01
+  last modified: 2026-06-02
 ---
 
 # Full Coaching Session Playbook
@@ -97,8 +97,8 @@ Sequence all four workflows in the correct order with proper state hand-offs. Ha
 **Exit condition:** `status: walkthrough_complete`
 
 **Hand-offs:**
-- Input: baseline.md (plan and 🔴 prerequisites needing pre-explanation)
-- Output: walkthrough_state.md (chain walked, re-explanations used, gaps encountered)
+- Input: baseline.md (plan, 🔴 prerequisites needing pre-explanation, and load-bearing concepts where the Teach-Back Gate fires)
+- Output: walkthrough_state.md (chain walked, re-explanations used, teach-back outcomes, gaps encountered)
 
 **Mid-phase routing:** Walkthrough ↔ gap_recovery cycling
 - On 🔴 → walkthrough hands off to Phase 2.5
@@ -155,6 +155,7 @@ Check before transitioning to Phase 3:
 - [ ] walkthrough_state.md exists with `complete: true` OR `walkthrough_complete` checkpoint reached
 - [ ] At least one concept walked (no zero-concept exports)
 - [ ] gap_map.md is consistent (every gap has a status)
+- [ ] Load-bearing concepts and 🔴 rebuilds have a teach-back outcome logged (confirmed / partial / misconception_corrected / skipped)
 
 If gate fails → either resume walkthrough (state shows incomplete) or skip to Phase 3 in partial-completion mode.
 

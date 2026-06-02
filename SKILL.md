@@ -18,6 +18,7 @@ A coaching skill that meets learners where they actually are — not where the a
 6. **Concrete before abstract.** Tie new concepts to fundamentals the learner already owns. Use analogies aggressively.
 7. **Confirm understanding before advancing.** No silent assumptions of comprehension.
 8. **Anchor, don't define.** Every new term is "what it is **+ what it's tied to**" — bound to the spine of the current topic and, where possible, to a fundamental the learner already owns. An untethered definition floats free and won't stick.
+9. **Verify the load-bearing 🟢s.** A self-assessed 🟢 is unverified — a false 🟢 is invisible and compounds. At the concepts everything depends on (and after every 🔴 rebuild), ask the learner to *produce* the explanation, not just claim it. Judge the mechanism, not the phrasing; put the burden on the explanation, not the learner.
 
 ## The Traffic-Light System
 
@@ -58,10 +59,11 @@ Every coaching session follows this shape:
 
 ```
 Baseline check → Glossary pre-flight → Walkthrough loop ↔ Gap recovery → Export notes
-   (R/Y/G on        (define the jargon     (Command → Output   (on 🔴 only)   (terminal,
-    prereqs)         before it appears)     → Analysis → Next                  optional)
-                                            with R/Y/G between
-                                            each concept)
+   (R/Y/G on        (define the jargon     (Command → Output   (on 🔴 only,   (terminal,
+    prereqs +        before it appears)     → Analysis → Next    rebuild then   optional)
+    tag load-                               with R/Y/G +         teach-back)
+    bearing)                                teach-back at the
+                                            load-bearing ones)
 ```
 
 ## Phase 1: Baseline Check (always start here)
@@ -74,6 +76,7 @@ Before diving into any deep technical content, run a baseline R/Y/G check on the
 3. For any 🔴 prerequisite, expand that concept to first principles before continuing — capture it as the first gap-map entry.
 4. For any 🟡 prerequisite, briefly re-establish the "why" before referencing it later.
 5. Build the walkthrough plan starting from the highest-confidence prerequisites and progressing toward the lower-confidence ones.
+6. **Tag the 1–2 load-bearing concepts** — the hubs everything downstream depends on (multiple later concepts reference them, or they're a central 🔴/🟡 prereq). These are where the Teach-Back Gate (Phase 2) fires. Keep it to 1–2; tagging everything defeats the point.
 
 **Example baseline prompt:**
 
@@ -112,9 +115,29 @@ Execute the structured **Command → Output → Analysis → Next** loop. Betwee
 2. **Output:** Show the result (real or representative) — what the learner would see on their screen.
 3. **Analysis:** Explain what the output means and why it matters in the context of the chain. Lead with the mechanism, then the procedure.
 4. **Next:** Preview what comes next and how it connects to the current step.
-5. **R/Y/G checkpoint:** Pause and ask for a signal before introducing the next concept.
+5. **R/Y/G checkpoint:** Pause and ask for a signal before introducing the next concept. At a **load-bearing** concept, this upgrades to the Teach-Back Gate (below).
 
-**On 🟢:** Continue at current depth. Do not add scaffolding. Match the learner's pace.
+### The Teach-Back Gate
+
+At the **load-bearing concepts** (tagged in Phase 1) and **after every 🔴 rebuild** (Phase 3), a bare 🟢 is self-assessed and unverified — and that's the most expensive place for a false 🟢, because it poisons everything built on top. So the checkpoint upgrades from a plain signal to signal **plus** a one-line teach-back:
+
+> R/Y/G on [concept]? — and so I can check **my explanation** landed: in one line, [explain it back / what do you think the next [command/step] does]?
+
+Use **explain-back** for conceptual material, **predict-the-next-step** for procedural/command material. Then evaluate — judging the **mechanism/anchor, not the phrasing** (rough, in-the-learner's-words is a pass):
+
+| Outcome | Trigger | Response |
+|---------|---------|----------|
+| **Confirmed** | Captures the load-bearing mechanism, even roughly | Acknowledge, advance. No vocabulary nitpicking. |
+| **Partial** | Captures most, misses one key piece | Fill **only** the missing piece, re-confirm. Soft 🟡. |
+| **Misconception** | Reveals a **wrong anchor** | The highest-value catch. Correct gently, log it as a corrected misconception, re-confirm. |
+
+Two rules make or break this gate:
+- **Burden on the explanation, never the learner.** A gap reads "my explanation under-specified X," never "you got it wrong." A teach-back framed as a test poisons the mechanic — reward the attempt, always.
+- **On by default, always skippable.** A bare color at a gate point (`🟢`, "green, skip") is honored without nagging — for the days the learner genuinely just knows it.
+
+Fires only at load-bearing + post-🔴, never every concept — a teach-back on everything is friction, not rigor.
+
+**On 🟢:** Continue at current depth. Do not add scaffolding. Match the learner's pace. (At a load-bearing concept, advance once the Teach-Back Gate returns confirmed or skipped.)
 
 **On 🟡:** Pause forward motion. Re-explain the current concept with a concrete example tied to a fundamental the learner already owns. Use analogy aggressively. Confirm understanding (another R/Y/G signal) before continuing.
 
@@ -156,7 +179,7 @@ Rebuild approach: [what worked]
 Status: resolved | partially-resolved | needs-future-session
 ```
 
-6. **Re-checkpoint.** Get a fresh R/Y/G after the rebuild.
+6. **Re-checkpoint with a teach-back (mandatory here).** A rebuilt foundation that only *seemed* to land poisons everything built on it, so don't accept a bare 🟢 — ask the learner to explain the rebuilt concept back in one line ("so I can check my rebuild landed: what does [concept] let you do?"). Evaluate with the same three outcomes and the same framing (burden on the rebuild, never the learner). A misconception surfaced here is exactly why the gate is mandatory after a 🔴.
 7. **Resume the walkthrough** from the point where 🔴 was signaled.
 
 **Frame all of this as normal calibration, not failure.** Phrasing matters:
@@ -238,3 +261,4 @@ This skill is **not** for:
 - **Append a Vocab Footer** when a concept introduces 3+ new technical terms, is in 🔴 territory, or includes terms not in the learner's baseline vocabulary. Keep each definition to one sentence anchored in the concept's context — not a dictionary definition.
 - **Define notation and technical adjectives on first use.** Any symbol (K_u, ε, n, π), subscript notation, or domain adjective (ephemeral, idempotent, deterministic) should be defined inline the first time it appears. Do not assume these cross from written technical literature to a learner's vocabulary automatically. The **Glossary Pre-Flight (Phase 1.5)** front-loads this for the whole topic, so first-use definition becomes reinforcement; the pre-flight does not replace it.
 - **Anchor every term to something owned (Core Principle 8).** "What it is + what it's tied to." A definition that only states what a term *is* floats free and won't stick — bind it to the topic's spine and to a fundamental the learner already has. Glossary entries, Vocab Footers, and bundled-term answers all follow this form.
+- **Fire the Teach-Back Gate at load-bearing concepts and after every 🔴 rebuild (Core Principle 9).** Ask the learner to explain it back / predict the next step instead of accepting a self-assessed 🟢. Judge the mechanism, not the phrasing. Keep the burden on your explanation ("my explanation missed X"), never on the learner. On by default, always skippable. A surfaced misconception is the highest-value catch — correct it gently and record it; it becomes a "Misconceptions Corrected" entry in the exported notes. Do **not** fire on every concept — selectivity is the point.
