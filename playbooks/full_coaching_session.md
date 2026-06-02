@@ -10,8 +10,8 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: playbook file for the calibrated-learning skill
-  version: 0.4.0
-  related files: "workflows/baseline_check.md, workflows/walkthrough.md, workflows/gap_recovery.md, workflows/export_notes.md"
+  version: 0.5.0
+  related files: "workflows/baseline_check.md, workflows/walkthrough.md, workflows/gap_recovery.md, workflows/export_notes.md, workflows/ledger.md"
   creation date: 2026-05-11
   last modified: 2026-06-02
 ---
@@ -82,7 +82,7 @@ Sequence all four workflows in the correct order with proper state hand-offs. Ha
 **Exit condition:** `status: baseline_complete`
 
 **Hand-offs:**
-- Input: topic.md (the learner's request)
+- Input: topic.md (the learner's request) + the cross-session `ledger.md` (READ — classifies prereqs as owned-fresh/owned-stale/familiar/new and surfaces related OPEN gaps; see `workflows/ledger.md`)
 - Output: baseline.md (prerequisite signals and walkthrough plan) + glossary.md (pre-flight acronyms, notation, vocabulary)
 
 **Stop conditions:**
@@ -98,7 +98,7 @@ Sequence all four workflows in the correct order with proper state hand-offs. Ha
 
 **Hand-offs:**
 - Input: baseline.md (plan, 🔴 prerequisites needing pre-explanation, and load-bearing concepts where the Teach-Back Gate fires)
-- Output: walkthrough_state.md (chain walked, re-explanations used, teach-back outcomes, gaps encountered)
+- Output: walkthrough_state.md (chain walked, re-explanations used, teach-back outcomes, gaps encountered) + **ledger.md WRITE at walkthrough-complete** (OWNED/FAMILIAR/OPEN updated — fires whether or not notes are exported)
 
 **Mid-phase routing:** Walkthrough ↔ gap_recovery cycling
 - On 🔴 → walkthrough hands off to Phase 2.5
@@ -172,9 +172,10 @@ Check before declaring `complete`:
 
 **Primary artifact:** Notes file at `~/learning-notes/<YYYY-MM-DD>_<topic-slug>.md`
 
-**Secondary artifacts (in cauldron):**
-- Session state for resumption
-- Gap map for later study
+**Secondary artifacts:**
+- **`ledger.md` (skill root)** — the cross-session record; updated at walkthrough-complete and consulted by the next session's baseline. The one artifact that outlives the session's cauldron.
+- Session state for resumption (cauldron)
+- Gap map for later study (cauldron)
 - Glossary (pre-flight + walkthrough-added terms) — folded into the exported notes
 - Raw signal log for retrospective analysis (e.g., "which re-explanation approaches worked?")
 

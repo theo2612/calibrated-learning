@@ -19,6 +19,7 @@ A coaching skill that meets learners where they actually are — not where the a
 7. **Confirm understanding before advancing.** No silent assumptions of comprehension.
 8. **Anchor, don't define.** Every new term is "what it is **+ what it's tied to**" — bound to the spine of the current topic and, where possible, to a fundamental the learner already owns. An untethered definition floats free and won't stick.
 9. **Verify the load-bearing 🟢s.** A self-assessed 🟢 is unverified — a false 🟢 is invisible and compounds. At the concepts everything depends on (and after every 🔴 rebuild), ask the learner to *produce* the explanation, not just claim it. Judge the mechanism, not the phrasing; put the burden on the explanation, not the learner.
+10. **Remember across sessions.** A persistent ledger records what the learner has demonstrated (OWNED = teach-back verified · FAMILIAR = self-reported 🟢 · OPEN = parked gaps) so each session compounds instead of starting ignorant. Baseline pre-fills owned ground for one-glance confirmation rather than re-asking it; only *verified* concepts earn trusted (OWNED) status; the learner can downgrade any pre-fill in a word.
 
 ## The Traffic-Light System
 
@@ -58,13 +59,14 @@ The goal is **zero loss to silent googling.** Anything you would have quietly lo
 Every coaching session follows this shape:
 
 ```
-Baseline check → Glossary pre-flight → Walkthrough loop ↔ Gap recovery → Export notes
-   (R/Y/G on        (define the jargon     (Command → Output   (on 🔴 only,   (terminal,
-    prereqs +        before it appears)     → Analysis → Next    rebuild then   optional)
-    tag load-                               with R/Y/G +         teach-back)
-    bearing)                                teach-back at the
-                                            load-bearing ones)
+[ledger READ] → Baseline check → Glossary pre-flight → Walkthrough loop ↔ Gap recovery → Export → [ledger WRITE]
+                  (R/Y/G on        (define the jargon     (Command → Output   (on 🔴 only,   (terminal,   (OWNED/
+                   prereqs +        before it appears)     → Analysis → Next    rebuild then   optional)   FAMILIAR/
+                   tag load-                                with R/Y/G +         teach-back)                 OPEN, at
+                   bearing)                                 teach-back at the                               complete)
+                                                            load-bearing ones)
 ```
+The ledger spans sessions: read before baseline (pre-fill owned ground), written at walkthrough-complete (record what was verified).
 
 ## Phase 1: Baseline Check (always start here)
 
@@ -72,11 +74,12 @@ Before diving into any deep technical content, run a baseline R/Y/G check on the
 
 **Procedure:**
 1. Identify the topic and break it into 3-6 prerequisite concepts (e.g., for a "PaperCut RCE chain" topic: hardcoded credentials, XML-RPC, Java reflection, Rhino sandbox, ClassShutter, Windows service contexts).
-2. Present them as a numbered list and ask the learner to signal R/Y/G on each.
-3. For any 🔴 prerequisite, expand that concept to first principles before continuing — capture it as the first gap-map entry.
-4. For any 🟡 prerequisite, briefly re-establish the "why" before referencing it later.
-5. Build the walkthrough plan starting from the highest-confidence prerequisites and progressing toward the lower-confidence ones.
-6. **Tag the 1–2 load-bearing concepts** — the hubs everything downstream depends on (multiple later concepts reference them, or they're a central 🔴/🟡 prereq). These are where the Teach-Back Gate (Phase 2) fires. Keep it to 1–2; tagging everything defeats the point.
+2. **Consult the ledger** (see Phase 5). For each prerequisite: if it's OWNED and fresh, present it pre-marked 🟢 for one-glance confirmation ("you've got this — still good?"); OWNED but stale (past the decay threshold), flag it "⏳ owned a while ago — still solid?"; FAMILIAR, pre-fill 🟢 but still ask; unknown, a normal R/Y/G question. Surface any related OPEN gap ("we parked X last time — fold it in?"). Pre-filling is recall for confirmation, not explanation — the learner downgrades any of it in a word.
+3. Present them as a numbered list and ask the learner to signal R/Y/G on each (the new ones especially).
+4. For any 🔴 prerequisite, expand that concept to first principles before continuing — capture it as the first gap-map entry.
+5. For any 🟡 prerequisite, briefly re-establish the "why" before referencing it later.
+6. Build the walkthrough plan starting from the highest-confidence prerequisites and progressing toward the lower-confidence ones.
+7. **Tag the 1–2 load-bearing concepts** — the hubs everything downstream depends on (multiple later concepts reference them, or they're a central 🔴/🟡 prereq). These are where the Teach-Back Gate (Phase 2) fires. Keep it to 1–2; tagging everything defeats the point.
 
 **Example baseline prompt:**
 
@@ -221,6 +224,24 @@ When the learner says "save notes", "export", "wrap up", or the walkthrough comp
 
 **Default save location** (configurable): `~/learning-notes/<YYYY-MM-DD>_<topic-slug>.md`
 
+## Phase 5: The Learning Ledger (cross-session memory)
+
+The notes file is *this* session's artifact. The **ledger** is what the *next* session reads — a persistent record so the skill stops re-calibrating ground the learner has already earned.
+
+**Storage:** a single hand-editable `ledger.md` at the skill root (git-ignore it — it's personal learning history). A tunable `staleness_weeks` value (default 8) lives in its header. Three tiers:
+- **OWNED** — teach-back-verified concepts (dated). Baseline trusts these.
+- **FAMILIAR** — self-reported 🟢, never verified. Baseline pre-fills but still asks.
+- **OPEN** — parked / unresolved gaps.
+
+**WRITE (at walkthrough-complete, whether or not notes are exported):**
+- Teach-back-verified concepts → OWNED · plain 🟢 → FAMILIAR · parked gaps → OPEN
+- A FAMILIAR concept that earns a teach-back later **upgrades** to OWNED; a concept never sits in two tiers (OWNED > FAMILIAR > OPEN)
+- A session that dies mid-walkthrough leaves the ledger untouched — nothing half-learned is wrongly marked OWNED
+
+**READ (at Phase 1 baseline):** classify each prerequisite by ledger status — owned-fresh → pre-fill 🟢 + one-glance confirm; owned-stale (older than `staleness_weeks`) → flag for re-confirmation; familiar → pre-fill but ask; unknown → normal R/Y/G. Surface related OPEN gaps.
+
+**Integrity rule:** only teach-back-verified concepts earn OWNED. A self-assessed 🟢 — the exact signal the Teach-Back Gate exists to distrust — lands in FAMILIAR and is still re-asked. The gate (Phase 2/3) is the ledger's quality check; that's why it precedes the ledger in the design. If `ledger.md` is missing or malformed, proceed as if there's no ledger — never let it block a session.
+
 ## Anti-Patterns
 
 This skill is **not** for:
@@ -262,3 +283,4 @@ This skill is **not** for:
 - **Define notation and technical adjectives on first use.** Any symbol (K_u, ε, n, π), subscript notation, or domain adjective (ephemeral, idempotent, deterministic) should be defined inline the first time it appears. Do not assume these cross from written technical literature to a learner's vocabulary automatically. The **Glossary Pre-Flight (Phase 1.5)** front-loads this for the whole topic, so first-use definition becomes reinforcement; the pre-flight does not replace it.
 - **Anchor every term to something owned (Core Principle 8).** "What it is + what it's tied to." A definition that only states what a term *is* floats free and won't stick — bind it to the topic's spine and to a fundamental the learner already has. Glossary entries, Vocab Footers, and bundled-term answers all follow this form.
 - **Fire the Teach-Back Gate at load-bearing concepts and after every 🔴 rebuild (Core Principle 9).** Ask the learner to explain it back / predict the next step instead of accepting a self-assessed 🟢. Judge the mechanism, not the phrasing. Keep the burden on your explanation ("my explanation missed X"), never on the learner. On by default, always skippable. A surfaced misconception is the highest-value catch — correct it gently and record it; it becomes a "Misconceptions Corrected" entry in the exported notes. Do **not** fire on every concept — selectivity is the point.
+- **Consult the ledger at baseline, write it at walkthrough-complete (Core Principle 10 / Phase 5).** Pre-fill OWNED/FAMILIAR prereqs instead of re-asking from scratch; only teach-back-verified concepts earn OWNED. Respect the decay threshold — flag stale OWNED for re-confirmation rather than trusting it blind. The learner can downgrade any pre-fill in a word. Treat a missing/malformed ledger as "no ledger" and proceed; never block a session on it.

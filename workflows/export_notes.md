@@ -9,8 +9,8 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: workflow file for the calibrated-learning skill
-  version: 0.4.0
-  related files: "workflows/walkthrough.md, workflows/gap_recovery.md, templates/coaching_notes_template.md"
+  version: 0.5.0
+  related files: "workflows/walkthrough.md, workflows/gap_recovery.md, templates/coaching_notes_template.md, workflows/ledger.md"
   creation date: 2026-05-11
   last modified: 2026-06-02
 ---
@@ -151,10 +151,13 @@ Session summary:
 - Concepts walked: <count>
 - Re-explanations: <count>
 - Gaps captured: <count> (<resolved> resolved, <parked> parked for future study)
+- Ledger: +<N> owned, +<M> familiar, <K> gaps still open (carried to next session)
 
 Suggested follow-up:
 - <one-line recommendation per parked gap>
 ```
+
+The ledger line reflects the cross-session record written at walkthrough-complete (see `workflows/ledger.md`) — the notes file is *this* session's artifact; the ledger is what the *next* session's baseline will consult so these concepts aren't re-calibrated from scratch.
 
 If gaps were parked, offer to:
 - Spawn a research subagent on the parked gap topic now
