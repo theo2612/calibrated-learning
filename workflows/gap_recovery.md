@@ -10,10 +10,10 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: workflow file for the calibrated-learning skill
-  version: 0.3.0
+  version: 0.4.0
   related files: "workflows/walkthrough.md, workflows/export_notes.md"
   creation date: 2026-05-11
-  last modified: 2026-06-01
+  last modified: 2026-06-02
 ---
 
 # Gap Recovery Workflow
@@ -175,10 +175,20 @@ Append to the current gap entry in `gap_map.md`:
 - **Mini-checkpoints:** <count of green confirmations during rebuild>
 ```
 
-### Step 5: Confirm Resolution
+### Step 5: Confirm Resolution — Teach-Back Gate (mandatory post-🔴)
 
-When the learner reaches 🟢 on the rebuilt concept, confirm:
-> Solid? Want to keep going from where we paused, or do you want to consolidate this further?
+A 🔴 rebuild is the **most expensive place for a false 🟢**: if the rebuilt foundation only *seemed* to land, every concept built on it downstream inherits the gap. So resolution is gated by a teach-back, not a bare 🟢. (See `walkthrough.md` → "Teach-Back Evaluation" for the full rubric — this is the same gate, mandatory here.)
+
+Instead of "Solid?", ask for the explain-back:
+
+> Before we head back — so I can check **my rebuild** actually landed: in one line, [explain [concept] back to me / what does [concept] let you do]?
+
+Evaluate with the same three outcomes and the same **framing rule** (burden on the rebuild, never the learner; reward the attempt):
+- **Confirmed** → the explain-back captures the rebuilt mechanism → resolve and return.
+- **Partial** → fill the missing piece, re-ask.
+- **Misconception** → the rebuild left a wrong anchor → correct it, re-ask. (This is exactly why the gate is mandatory here.)
+
+**Skip path:** the learner may still wave it off with a bare 🟢 — honor it, but record `teach_back: skipped` on the gap entry so a downstream re-break is traceable to an unverified rebuild.
 
 #### Persist to File: Gap Resolution
 
@@ -188,6 +198,7 @@ Update the gap entry in `gap_map.md`:
 - **Status:** resolved
 - **Resolved at:** <ISO timestamp>
 - **Final signal:** 🟢
+- **Teach-back:** confirmed | partial→confirmed | misconception_corrected | skipped
 - **Notes:** <one-line takeaway for the learner's notes>
 ```
 

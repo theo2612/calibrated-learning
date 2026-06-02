@@ -9,10 +9,10 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: workflow file for the calibrated-learning skill
-  version: 0.3.0
+  version: 0.4.0
   related files: "workflows/walkthrough.md, workflows/gap_recovery.md, templates/coaching_notes_template.md"
   creation date: 2026-05-11
-  last modified: 2026-06-01
+  last modified: 2026-06-02
 ---
 
 # Export Notes Workflow
@@ -89,6 +89,7 @@ Extract:
 - Re-explanations used (from `re_explanations_used`)
 - All gap entries with status
 - The full glossary (pre-flight terms + terms added during the walkthrough) — this becomes the notes' standalone Glossary section, a study reference the learner keeps
+- Teach-back outcomes (from `walkthrough_state.md` `teach_backs` section) — especially any `misconception_corrected` entries, which become the "Misconceptions Corrected" section: the highest-value study artifact (what the learner *thought* was true and the fix)
 - Session start and end timestamps
 
 ### Step 2: Compose Notes Draft

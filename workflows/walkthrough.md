@@ -10,10 +10,10 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: workflow file for the calibrated-learning skill
-  version: 0.3.0
+  version: 0.4.0
   related files: "workflows/baseline_check.md, workflows/gap_recovery.md, workflows/export_notes.md"
   creation date: 2026-05-11
-  last modified: 2026-06-01
+  last modified: 2026-06-02
 ---
 
 # Walkthrough Workflow
@@ -196,11 +196,52 @@ The vocab footer eliminates scroll-back friction — the learner can read term d
 
 #### 3f. Checkpoint
 
-Pause and ask for an R/Y/G signal. Use a consistent prompt so the learner knows what to expect:
+Pause and ask for an R/Y/G signal. **Do not chain into the next concept without a signal.**
+
+**Default checkpoint** (most concepts):
 
 > R/Y/G on [concept]?
 
-Wait for the response. **Do not chain into the next concept without a signal.**
+**Teach-Back Gate** — at concepts tagged `load-bearing` in `baseline.md` (and after every 🔴 rebuild, handled in `gap_recovery.md` Step 5): a bare 🟢 is self-assessed and unverified, which is the most expensive calibration error at exactly these concepts. So the checkpoint upgrades to signal **plus** a one-line teach-back:
+
+> R/Y/G on [concept]? — and so I can check **my explanation** landed: in one line, [explain it back to me / what do you think the next [command/step] does]?
+
+- Pick **explain-back** for conceptual material; **predict-the-next-step** for procedural/command material.
+- The gate is **on by default but always skippable** (see Teach-Back Evaluation below for the skip path).
+- Only load-bearing + post-🔴 fire the gate. A teach-back on every concept is friction the learner explicitly does not want.
+
+Wait for the response, then evaluate per the next section.
+
+### Teach-Back Evaluation
+
+> **WHY THIS GATE EXISTS:** A false 🟢 looks identical to a real one. Self-assessed comprehension pattern-matches "yeah, that tracks" and advances — and the gap compounds invisibly. Asking the learner to *produce* the explanation (Feynman) is the cheapest way to tell a real 🟢 from a hopeful one. Evidence it works: this skill's own SMB-enumeration session caught two edges *because* the learner volunteered teach-backs ("if only 445 is open, may not be a path…" surfaced a correctable misconception). The gate makes that prompt explicit where it matters most.
+
+**Framing rule (non-negotiable):** the burden is on **the explanation, never the learner.** The prompt asks the learner to check *the assistant's* explanation, not to prove themselves. A gap is phrased "my explanation under-specified X" — never "you got it wrong." This learner battles imposter syndrome; a teach-back framed as a test poisons the whole mechanic. Reward the attempt, always.
+
+**Judge the mechanism/anchor, not the phrasing.** Rough, in-the-learner's-own-words explanations that capture the load-bearing point are 🟢. Do not nitpick vocabulary.
+
+Three outcomes:
+
+| Outcome | Trigger | Response |
+|---------|---------|----------|
+| **Confirmed** | Teach-back captures the load-bearing mechanism, even roughly | Acknowledge the signal, advance. No vocabulary nitpicking. Log `teach_back: confirmed`. |
+| **Partial** | Captures most but misses one key piece | Fill **only** the missing piece (not a full re-explanation), re-confirm. Treat as a soft 🟡. Log `teach_back: partial`. |
+| **Misconception** | Reveals a **wrong anchor** or broken mechanism (e.g. "445-only means no path") | The high-value catch — worth more than a 🟡. Correct gently ("my explanation let that slip — here's the fix…"), log to **gap_map.md** as a corrected misconception, re-confirm. Log `teach_back: misconception_corrected`. |
+
+**Skip path:** a bare color at a fire point (`🟢`, `🟢 skip`, "green, skip the teach-back") is honored without nagging — advance, but record `teach_back: skipped` in state so that if a later gap traces back to this concept, we know verification was skipped here.
+
+#### Persist to File: Teach-Back Log
+
+Append to `cauldron/<session-id>/walkthrough_state.md` (in a `teach_backs` section):
+
+```markdown
+- Concept: <name>
+  - Type: explain-back | predict
+  - Outcome: confirmed | partial | misconception_corrected | skipped
+  - Misconception (if any): "<learner's wrong anchor>" → "<correction>"
+```
+
+A `misconception_corrected` outcome also appends a gap-map entry (status `resolved`, tagged `corrected-misconception`) — these are the highest-value study artifacts the session produces.
 
 ### Handling Bundled Signals
 
@@ -220,6 +261,8 @@ Acknowledge briefly ("alright, moving on"). Update state:
 - Mark concept N as complete in `walkthrough_state.md`
 - Increment `current_concept`
 - Update `checkpoint.json`: `"status": "concept_<N+1>_pending"`
+
+**At a load-bearing concept:** only advance once the Teach-Back Gate returned **confirmed** or **skipped** (a `partial` re-confirms first; a `misconception_corrected` re-confirms after the correction). A plain-checkpoint concept advances on the bare 🟢 as before.
 
 Return to Step 3 with the next concept.
 

@@ -10,10 +10,10 @@ compatibility: Claude Code
 metadata:
   author: theo2612
   usage: workflow file for the calibrated-learning skill
-  version: 0.3.0
+  version: 0.4.0
   related files: "workflows/router.md, workflows/walkthrough.md, workflows/gap_recovery.md"
   creation date: 2026-05-11
-  last modified: 2026-06-01
+  last modified: 2026-06-02
 ---
 
 # Baseline Check Workflow
@@ -173,6 +173,18 @@ Plan the walkthrough order:
 - Introduce 🟡 prerequisites with their "why" framing
 - Hold 🔴 prerequisites for the foundational explanation step
 
+#### Tag Load-Bearing Concepts (Teach-Back Gate)
+
+Mark the **1–2 concepts everything downstream depends on** as `load-bearing`. These are where the walkthrough fires the Teach-Back Gate (see `walkthrough.md`) — a verified explain-back instead of a self-assessed 🟢, because a false 🟢 *here* poisons every concept after it.
+
+A concept is load-bearing if:
+- **Multiple later concepts reference it** — it's a hub, not a leaf, in the chain.
+- **It's a central 🔴/🟡 prerequisite** the rest of the topic is built on.
+
+Keep it to 1–2. Tagging everything defeats the point — the gate is selective by design. (Example, SMB enumeration: "MS-RPC over named pipes" was load-bearing — RID cycling and the whole identity layer hung off it; the file-discovery concepts were leaves.)
+
+Record the tags in `baseline.md` (the walkthrough reads them to know where to fire the gate). 🔴-rebuild concepts are implicitly gated post-rebuild and don't need a separate tag.
+
 ### Step 5: Glossary Pre-Flight Scan
 
 > **WHY THIS STEP EXISTS:** A capable model reaches for precise technical
@@ -291,6 +303,10 @@ Contents (~1,000 tokens):
 ## Walkthrough Plan
 1. <Concept order based on signals>
 2. ...
+
+## Load-Bearing Concepts (Teach-Back Gate fires here)
+- <concept name> — <why it's a hub: which later concepts depend on it>
+- (1–2 max; 🔴-rebuild concepts are gated post-rebuild automatically)
 
 ## Pre-Walkthrough Foundations (🔴 prerequisites)
 - <name>: <approach for foundational rebuild>
